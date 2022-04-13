@@ -149,7 +149,9 @@ if __name__ == "__main__":
         for i in range(simcnt):
             #Call the simulator
             compiletime, keygenerationtime, encryptiontime, executiontime, decryptiontime, referenceexecutiontime, mse = simulate(n)
-            res = str(n) + "," + str(i) + "," + str(compiletime) + "," + str(keygenerationtime) + "," +  str(encryptiontime) + "," +  str(executiontime) + "," +  str(decryptiontime) + "," +  str(referenceexecutiontime) + "," +  str(mse) + "\n"
-            print(res)
+            # res = str(n) + "," + str(i) + "," + str(compiletime) + "," + str(keygenerationtime) + "," +  str(encryptiontime) + "," +  str(executiontime) + "," +  str(decryptiontime) + "," +  str(referenceexecutiontime) + "," +  str(mse) + "\n"
+            # print(res)
+            print("NodeCount:", n, "Simulation:", i)
+            print("CompileTime:", compiletime, "KeyGenerationTime:", keygenerationtime, "EncryptionTime:", encryptiontime, "ExecutionTime:", executiontime, "DecryptionTime:", decryptiontime, "ReferenceExecutionTime:", referenceexecutiontime, "Mse:", mse)
             resultfile.write(res)
         resultfile.close()
