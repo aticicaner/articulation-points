@@ -36,6 +36,6 @@ fs.createReadStream('results.csv')
     })
     .on('end', () => {
         console.log('Read all data')
-        console.table(data)
-        // console.log(processedData['40'])
+        // console.table(data)
+        console.log(processedData['40'])
     });
