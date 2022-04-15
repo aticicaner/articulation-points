@@ -1,4 +1,8 @@
-const d3 = require('d3');
-const summaryJson = require('./summary.json')
+import * as d3 from 'd3'
+import fs from 'fs'
 
-// create a clustered bar graph using summaryJson for each node size
+// read data from summary.json
+const summaryJson = fs.readFileSync('summary.json', 'utf8')
+const summary = JSON.parse(summaryJson)
+const groups = Object.keys(summary)
+
