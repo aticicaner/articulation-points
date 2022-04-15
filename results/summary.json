@@ -1,0 +1,184 @@
+{
+    "36": {
+        "compileTimes": {
+            "mean": 32.22425800006022,
+            "stdDev": 3.0404543790772065
+        },
+        "keyGenerationTimes": {
+            "mean": 23.974941500009663,
+            "stdDev": 1.2520944839667105
+        },
+        "encryptionTimes": {
+            "mean": 3.9019424999833063,
+            "stdDev": 0.26558935680436635
+        },
+        "executionTimes": {
+            "mean": 12.97124849998454,
+            "stdDev": 0.4809474290568552
+        },
+        "decryptionTimes": {
+            "mean": 2.902465499942082,
+            "stdDev": 0.20806563500623138
+        },
+        "referenceExecutionTimes": {
+            "mean": 1.6085917941100469e-9,
+            "stdDev": 1.3697693203424749e-9
+        }
+    },
+    "40": {
+        "compileTimes": {
+            "mean": 31.478246000028776,
+            "stdDev": 2.592593734282579
+        },
+        "keyGenerationTimes": {
+            "mean": 23.835365000004458,
+            "stdDev": 0.9408297440537128
+        },
+        "encryptionTimes": {
+            "mean": 3.8741570000024694,
+            "stdDev": 0.20531895528976316
+        },
+        "executionTimes": {
+            "mean": 12.925094499987608,
+            "stdDev": 0.36480816572563346
+        },
+        "decryptionTimes": {
+            "mean": 2.8855764999639177,
+            "stdDev": 0.1553455326030571
+        },
+        "referenceExecutionTimes": {
+            "mean": 1.6691201824827223e-9,
+            "stdDev": 1.4397390796739038e-9
+        }
+    },
+    "44": {
+        "compileTimes": {
+            "mean": 31.23893933334936,
+            "stdDev": 2.3873591383663957
+        },
+        "keyGenerationTimes": {
+            "mean": 23.781241666662634,
+            "stdDev": 0.7902169920053205
+        },
+        "encryptionTimes": {
+            "mean": 3.8607303333371115,
+            "stdDev": 0.1926434541224699
+        },
+        "executionTimes": {
+            "mean": 12.910171833333758,
+            "stdDev": 0.3137482080140548
+        },
+        "decryptionTimes": {
+            "mean": 2.8875189999704767,
+            "stdDev": 0.1546239728202908
+        },
+        "referenceExecutionTimes": {
+            "mean": 1.654422347320746e-9,
+            "stdDev": 1.388241897777725e-9
+        }
+    },
+    "48": {
+        "compileTimes": {
+            "mean": 31.073572375009917,
+            "stdDev": 2.244221229233899
+        },
+        "keyGenerationTimes": {
+            "mean": 23.761904249993222,
+            "stdDev": 0.709740805872878
+        },
+        "encryptionTimes": {
+            "mean": 3.8483037500168393,
+            "stdDev": 0.17669238958304664
+        },
+        "executionTimes": {
+            "mean": 12.902027875002204,
+            "stdDev": 0.28338505473023307
+        },
+        "decryptionTimes": {
+            "mean": 2.8892463749696162,
+            "stdDev": 0.13994731655105327
+        },
+        "referenceExecutionTimes": {
+            "mean": 1.6102032903171829e-9,
+            "stdDev": 1.3496010925799206e-9
+        }
+    },
+    "52": {
+        "compileTimes": {
+            "mean": 31.051318800003173,
+            "stdDev": 2.2044882059448776
+        },
+        "keyGenerationTimes": {
+            "mean": 23.790973799998028,
+            "stdDev": 0.7426842267914533
+        },
+        "encryptionTimes": {
+            "mean": 3.865519900014988,
+            "stdDev": 0.21878850373533526
+        },
+        "executionTimes": {
+            "mean": 12.92704120000053,
+            "stdDev": 0.3429224094260524
+        },
+        "decryptionTimes": {
+            "mean": 2.894893899970157,
+            "stdDev": 0.15271766384962
+        },
+        "referenceExecutionTimes": {
+            "mean": 1.626857534740362e-9,
+            "stdDev": 1.375134690640178e-9
+        }
+    },
+    "56": {
+        "compileTimes": {
+            "mean": 30.982134166667947,
+            "stdDev": 2.11670533708627
+        },
+        "keyGenerationTimes": {
+            "mean": 23.784754500002236,
+            "stdDev": 0.7029002671373387
+        },
+        "encryptionTimes": {
+            "mean": 3.8657973333435316,
+            "stdDev": 0.20774733472711182
+        },
+        "executionTimes": {
+            "mean": 12.924557999998948,
+            "stdDev": 0.32168797286675294
+        },
+        "decryptionTimes": {
+            "mean": 2.8866584999749043,
+            "stdDev": 0.14865604576669847
+        },
+        "referenceExecutionTimes": {
+            "mean": 1.6243072820639133e-9,
+            "stdDev": 1.3857033703952761e-9
+        }
+    },
+    "60": {
+        "compileTimes": {
+            "mean": 30.915580142855756,
+            "stdDev": 2.06223349731907
+        },
+        "keyGenerationTimes": {
+            "mean": 23.77981300000556,
+            "stdDev": 0.6640329064368141
+        },
+        "encryptionTimes": {
+            "mean": 3.8636379285831675,
+            "stdDev": 0.1981215483453051
+        },
+        "executionTimes": {
+            "mean": 12.920032285716323,
+            "stdDev": 0.3082073061435488
+        },
+        "decryptionTimes": {
+            "mean": 2.8782813571238615,
+            "stdDev": 0.14149845506837128
+        },
+        "referenceExecutionTimes": {
+            "mean": 1.6269153593924454e-9,
+            "stdDev": 1.3968202196181712e-9
+        }
+    }
+}
