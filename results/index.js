@@ -4,8 +4,11 @@
 // DecryptionTime,ReferenceExecutionTime,
 // Mse
 
-const fs = require('fs')
-const csv = require('csv-parser')
+// const fs = require('fs')
+// const csv = require('csv-parser')
+
+import fs from 'fs'
+import csv from 'csv-parser'
 
 console.log('Reading data from result.csv')
 
@@ -22,7 +25,7 @@ const calculateAverage = (arr) => {
     let variance;
     let mean;
 
-    mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+    mean = arr.reduce((a, b) => a + b) / arr.length;
 
     variance = arr.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b, 0) / arr.length;
 

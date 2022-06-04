@@ -5,13 +5,100 @@ from eva.metric import valuation_mse
 import timeit
 import networkx as nx
 from random import random
+import math
+
+VERTEX_COUNT = 60
+K = 5
+P = 0.4
 
 # Using networkx, generate a random graph
 # You can change the way you generate the graph
 def generateGraph(n, k, p):
     #ws = nx.cycle_graph(n)
-    ws = nx.watts_strogatz_graph(n,k,p)
+    ws = nx.connected_watts_strogatz_graph(n,k,p)
+    # print('graph', serializeGraphZeroOne(ws,1))
     return ws
+
+
+def depth_first_search(connectivity, start):
+    visited = []
+    stack = [start]
+
+    while stack:
+        vertex = stack.pop()
+        if vertex not in visited:
+            visited.append(vertex)
+            for neighbor in connectivity[vertex]:
+                stack.append(neighbor)
+    
+    print('depth_first_search: ', visited)
+    return visited
+
+def prepare_connectivity_map(graph):
+    graph_as_arr = graph[0]
+    connectivity_map = {}
+
+    for i in range(VERTEX_COUNT):
+        connectivity_map[i] = []
+        for j in range(VERTEX_COUNT):
+            if graph_as_arr[i*VERTEX_COUNT+j] == 1:
+                connectivity_map[i].append(j)
+
+    print('connectivity_map: ', connectivity_map)
+
+    return connectivity_map
+
+def find_max_depth(connectivity_map):
+    max_depth = 0
+    for i in range(VERTEX_COUNT):
+        if connectivity_map[i] == []:
+            continue
+        else:
+            depth = 0
+            visited = []
+            stack = [i]
+            while stack:
+                vertex = stack.pop()
+                if vertex not in visited:
+                    visited.append(vertex)
+                    for neighbor in connectivity_map[vertex]:
+                        stack.append(neighbor)
+                    depth += 1
+            if depth > max_depth:
+                max_depth = depth
+    return max_depth
+
+
+# Tarjan's algorithm for finding articulation points
+def checkAP(graph):
+    # print('graphDict', graph[1])
+    # print('graphArr', graph[0])
+    connectivity_map = prepare_connectivity_map(graph)
+    
+    max_depth = find_max_depth(connectivity_map)
+
+    suspects = []
+
+    for i in range(VERTEX_COUNT):
+        omitted_connectivity_map = connectivity_map.copy()
+        omitted_connectivity_map.pop(i)
+        
+        try:
+            if len(depth_first_search(omitted_connectivity_map, 0)) < max_depth:
+                suspects.append(i)
+        except:
+            pass
+
+    articulation_points = []
+
+    for i in range(len(suspects)):
+        if len(connectivity_map[suspects[i]]) != 0:
+            articulation_points.append(i)
+
+    print('articulation points', articulation_points)
+    
+    
+
 
 # If there is an edge between two vertices its weight is 1 otherwise it is zero
 # You can change the weight assignment as required
@@ -56,11 +143,35 @@ def prepareInput(n, m):
 # You will implement this service based on your selected algorithm
 # you can other parameters using global variables !!! do not change the signature of this function 
 def graphanalticprogram(graph):
-    reval = graph<<1 ## Check what kind of operators are there in EVA, this is left shift
+    reval = graph
+    # dir(graph)
+    # ['__add__', '__class__', '__delattr__', '__dict__', '__dir__', 
+    # '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', 
+    # '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', 
+    # '__lshift__', '__lt__', '__module__', '__mul__', '__ne__', '__neg__', 
+    # '__new__', '__pow__', '__radd__', '__reduce__', '__reduce_ex__', 
+    # '__repr__', '__rmul__', '__rshift__', '__rsub__', '__setattr__', 
+    # '__sizeof__', '__str__', '__sub__', '__subclasshook__', '__weakref__', 
+    # 'program', 'term']
+    
+    # dir(graph.program)
+#     ['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__enter__', 
+#     '__eq__', '__exit__', '__format__', '__ge__', '__getattribute__', '__gt__', 
+#     '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__',
+#     '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__',
+#     '__sizeof__', '__str__', '__subclasshook__', '_make_dense_constant', 
+#     '_make_input', '_make_left_rotation', '_make_output', '_make_right_rotation', 
+#     '_make_term', '_make_uniform_constant', 'inputs', 'n', 'name', 
+#     'outputs', 'set_input_scales', 'set_output_ranges', 'to_DOT', 'vec_size']
+
+    nodes = graph.program.outputs
+    
+    ## Check what kind of operators are there in EVA, this is left shift
     # Note that you cannot compute everything using EVA/CKKS
     # For instance, comparison is not possible
     # You can add, subtract, multiply, negate, shift right/left
-    # You will have to implement an interface with the trusted entity for comparison (send back the encrypted values, push the trusted entity to compare and get the comparison output)
+    # You will have to implement an interface with the trusted entity for comparison 
+    # (send back the encrypted values, push the trusted entity to compare and get the comparison output)
     return reval
     
 # Do not change this 
@@ -82,7 +193,7 @@ class EvaProgramDriver(EvaProgram):
 # If you require additional parameters, add them
 def simulate(n):
     m = 4096*4
-    print("Will start simulation for ", n)
+    # print("Will start simulation for ", n)
     config = {}
     config['warn_vec_size'] = 'false'
     config['lazy_relinearize'] = 'true'
@@ -126,8 +237,8 @@ def simulate(n):
     referenceexecutiontime = (timeit.default_timer() - start) * 1000.0 #ms
     
     # Change this if you want to output something or comment out the two lines below
-    for key in outputs:
-        print(key, float(outputs[key][0]), float(reference[key][0]))
+    # for key in outputs:
+        # print(key, float(outputs[key][0]), float(reference[key][0]))
 
     mse = valuation_mse(outputs, reference) # since CKKS does approximate computations, this is an important measure that depicts the amount of error
 
@@ -135,7 +246,7 @@ def simulate(n):
 
 
 if __name__ == "__main__":
-    simcnt = 100 #The number of simulation runs, set it to 3 during development otherwise you will wait for a long time
+    simcnt = 3 #The number of simulation runs, set it to 3 during development otherwise you will wait for a long time
     # For benchmarking you must set it to a large number, e.g., 100
     #Note that file is opened in append mode, previous results will be kept in the file
     resultfile = open("results.csv", "a")  # Measurement results are collated in this file for you to plot later on
@@ -143,15 +254,19 @@ if __name__ == "__main__":
     resultfile.close()
     
     print("Simulation campaing started:")
-    for nc in range(36,64,4): # Node counts for experimenting various graph sizes
+    for nc in range(36,40,4): # Node counts for experimenting various graph sizes
         n = nc
         resultfile = open("results.csv", "a") 
         for i in range(simcnt):
             #Call the simulator
             compiletime, keygenerationtime, encryptiontime, executiontime, decryptiontime, referenceexecutiontime, mse = simulate(n)
-            # res = str(n) + "," + str(i) + "," + str(compiletime) + "," + str(keygenerationtime) + "," +  str(encryptiontime) + "," +  str(executiontime) + "," +  str(decryptiontime) + "," +  str(referenceexecutiontime) + "," +  str(mse) + "\n"
+            res = str(n) + "," + str(i) + "," + str(compiletime) + "," + str(keygenerationtime) + "," +  str(encryptiontime) + "," +  str(executiontime) + "," +  str(decryptiontime) + "," +  str(referenceexecutiontime) + "," +  str(mse) + "\n"
             # print(res)
-            print("NodeCount:", n, "Simulation:", i)
-            print("CompileTime:", compiletime, "KeyGenerationTime:", keygenerationtime, "EncryptionTime:", encryptiontime, "ExecutionTime:", executiontime, "DecryptionTime:", decryptiontime, "ReferenceExecutionTime:", referenceexecutiontime, "Mse:", mse)
-            resultfile.write(res)
+            # print("NodeCount:", n, "Simulation:", i)
+            # print("CompileTime:", compiletime, "KeyGenerationTime:", keygenerationtime, "EncryptionTime:", encryptiontime, "ExecutionTime:", executiontime, "DecryptionTime:", decryptiontime, "ReferenceExecutionTime:", referenceexecutiontime, "Mse:", mse)
+            # resultfile.write(res)
         resultfile.close()
+
+
+exampleGraph = serializeGraphZeroOne(generateGraph(VERTEX_COUNT, K, P), 200)
+checkAP(exampleGraph)
