@@ -1,3 +1,4 @@
+from distutils.command.build_scripts import first_line_re
 from eva import EvaProgram, Input, Output, evaluate
 from eva.ckks import CKKSCompiler
 from eva.seal import generate_keys
@@ -10,6 +11,8 @@ import math
 VERTEX_COUNT = 60
 K = 5
 P = 0.4
+
+result = []
 
 # Using networkx, generate a random graph
 # You can change the way you generate the graph
@@ -139,6 +142,25 @@ def prepareInput(n, m):
     input['Graph'] = graph
     return input
 
+def find_remaining_nodes(number_of_nodes, current_node):
+    remaining_nodes = []
+
+    for each in range(number_of_nodes):
+        remaining_nodes.append(0)
+
+    remaining_nodes[current_node] = 1
+
+    return remaining_nodes
+
+def visit_node(current):
+    global visited_nodes
+    global stack
+    global results
+
+    if not visited_nodes[current]:
+        result.append(current)
+        visited_nodes[current] = True
+        dfs_stack.pop()
 # This is the dummy analytic service
 # You will implement this service based on your selected algorithm
 # you can other parameters using global variables !!! do not change the signature of this function 
@@ -163,16 +185,30 @@ def graphanalticprogram(graph):
 #     '_make_input', '_make_left_rotation', '_make_output', '_make_right_rotation', 
 #     '_make_term', '_make_uniform_constant', 'inputs', 'n', 'name', 
 #     'outputs', 'set_input_scales', 'set_output_ranges', 'to_DOT', 'vec_size']
-
-    nodes = graph.program.outputs
     
-    ## Check what kind of operators are there in EVA, this is left shift
-    # Note that you cannot compute everything using EVA/CKKS
-    # For instance, comparison is not possible
-    # You can add, subtract, multiply, negate, shift right/left
-    # You will have to implement an interface with the trusted entity for comparison 
-    # (send back the encrypted values, push the trusted entity to compare and get the comparison output)
-    return reval
+    global first_pass
+    global node_count
+    global dfs_stack
+    global articulation_point_stack
+    global visited
+    global initialnode
+    global current_node
+
+    remaining_nodes = find_remaining_nodes(node_count, current_node)
+
+    while True:
+        if len(dfs_stack) == 0:
+            if len(articulation_point_stack) == 0:
+                print("articulation points are:", str(result))
+                return graph
+
+            else:
+                visit_node(current_node)
+        
+        else:
+            break
+
+    return remaining_nodes
     
 # Do not change this 
 # the parameter n can be passed in the call from simulate function

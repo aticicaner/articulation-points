@@ -1,12 +1,3 @@
-// NodeCount,PathLength,SimCnt,
-// CompileTime,KeyGenerationTime,
-// EncryptionTime,ExecutionTime,
-// DecryptionTime,ReferenceExecutionTime,
-// Mse
-
-// const fs = require('fs')
-// const csv = require('csv-parser')
-
 import fs from 'fs'
 import csv from 'csv-parser'
 
